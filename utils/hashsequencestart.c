@@ -4,7 +4,7 @@
 /*			     Written by Ken Goldman				*/
 /*		       IBM Thomas J. Watson Research Center			*/
 /*										*/
-/* (c) Copyright IBM Corporation 2015 - 2019.					*/
+/* (c) Copyright IBM Corporation 2015 - 2022.					*/
 /*										*/
 /* All rights reserved.								*/
 /* 										*/
@@ -249,5 +249,7 @@ static void printUsage(void)
     printf("\t-se[0-2] session handle / attributes (default NULL)\n");
     printf("\t01\tcontinue\n");
     printf("\t20\tcommand decrypt\n");
+    printf("\n");
+    printf("Depending on the build configuration, some hash algorithms may not be available.\n");
     exit(1);	
 }

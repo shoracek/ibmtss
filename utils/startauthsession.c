@@ -4,7 +4,7 @@
 /*			     Written by Ken Goldman				*/
 /*		       IBM Thomas J. Watson Research Center			*/
 /*										*/
-/* (c) Copyright IBM Corporation 2015 - 2019.					*/
+/* (c) Copyright IBM Corporation 2015 - 2022.					*/
 /*										*/
 /* All rights reserved.								*/
 /* 										*/
@@ -297,5 +297,7 @@ static void printUsage(void)
     printf("\t[-pwdb\tbind password for bind handle (default empty)]\n");
     printf("\t[-sym\t(xor, aes) symmetric parameter encryption algorithm (default xor)]\n");
     printf("\t[-on\tnonceTPM file for policy session (default do not save)]\n");
+    printf("\n");
+    printf("Depending on the build configuration, some hash algorithms may not be available.\n");
     exit(1);	
 }
