@@ -4,7 +4,7 @@
 /*			     Written by Ken Goldman				*/
 /*		       IBM Thomas J. Watson Research Center			*/
 /*										*/
-/* (c) Copyright IBM Corporation 2015 - 2019.					*/
+/* (c) Copyright IBM Corporation 2015 - 2022.					*/
 /*										*/
 /* All rights reserved.								*/
 /* 										*/
@@ -452,6 +452,12 @@ TPM_RC TSS_RSA_padding_add_PKCS1_OAEP(unsigned char *em, uint32_t emLen,
     unsigned char *maskedDb;
     unsigned char *seedMask = NULL;		/* compiler false positive */
     unsigned char *maskedSeed;
+
+#ifdef TPM_TSS_NODEPRECATEDALGS
+    if (halg == TPM_ALG_SHA1) {
+        rc = TPM_RC_HASH;
+    }
+#endif
 
     uint16_t hlen = TSS_GetDigestSize(halg);
     em[0] = 0x00;	/* firsr byte is 0x00 per the standard */

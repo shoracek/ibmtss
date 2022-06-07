@@ -7,7 +7,7 @@
 #			     Written by Ken Goldman				#
 #		       IBM Thomas J. Watson Research Center			#
 #										#
-# (c) Copyright IBM Corporation 2015 - 2020					#
+# (c) Copyright IBM Corporation 2015 - 2022					#
 # 										#
 # All rights reserved.								#
 # 										#
@@ -379,21 +379,26 @@ echo ""
 echo "Audit a PCR Read"
 echo ""
 
-for HALG in ${ITERATE_ALGS}
+for HALG in ${ITERATE_ALGS_WITH_SHA1}
 do
+    if [ "${HALG}" = "sha1" ] && [ "${TPM_TSS_NODEPRECATEDALGS}" ]; then
+        AUDIT_HALG=sha256
+    else
+        AUDIT_HALG=${HALG}
+    fi
 
     echo "Start an audit session ${HALG}"
-    ${PREFIX}startauthsession -se h -halg  ${HALG} > run.out
+    ${PREFIX}startauthsession -se h -halg ${AUDIT_HALG} > run.out
     checkSuccess $?
 
     echo "PCR 16 reset"
     ${PREFIX}pcrreset -ha 16 > run.out
     checkSuccess $?
 
-    cp policies/zero${HALG}.bin tmpdigestr.bin
+    cp policies/zero${AUDIT_HALG}.bin tmpdigestr.bin
 
     echo "PCR 16 read ${HALG}"
-    ${PREFIX}pcrread -ha 16 -halg ${HALG} -se0 02000000 81 -ahalg ${HALG} -iosad tmpdigestr.bin > run.out
+    ${PREFIX}pcrread -ha 16 -halg ${HALG} -se0 02000000 81 -ahalg ${AUDIT_HALG} -iosad tmpdigestr.bin > run.out
     checkSuccess $?
 
     echo "Get session audit digest"
@@ -409,7 +414,7 @@ do
     checkSuccess $?
 
     echo "PCR 16 read ${HALG}"
-    ${PREFIX}pcrread -ha 16 -halg ${HALG} -se0 02000000 81 -ahalg ${HALG} -iosad tmpdigestr.bin > run.out
+    ${PREFIX}pcrread -ha 16 -halg ${HALG} -se0 02000000 81 -ahalg ${AUDIT_HALG} -iosad tmpdigestr.bin > run.out
     checkSuccess $?
 
      echo "Get session audit digest"

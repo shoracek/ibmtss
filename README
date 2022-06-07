@@ -64,6 +64,7 @@ to enable/disable different features.
 		    (dependency on "--enable-nofile")
 --enable-noecc    - build a TSS library that does not require OpenSSL elliptic curve support
 --enable-debug    - build a TSS library used for debugging.
+--enable-nodeprecatedalgs - build a TSS library and utilities excluding SHA-1
 
 Example 2: To configure the TSS library to use the hardware TPM, build and
 install the package in the default /usr/local directories requires root
